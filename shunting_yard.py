@@ -11,7 +11,7 @@ import numpy as np
 import math  
 import time
 
-class Calculator:
+class Calculator2:
 
     def __init__(self):
         self.rnd_to = 10            # decimal points to round to
@@ -189,7 +189,7 @@ class Calculator:
          
 
 if __name__ == "__main__":
-    test = Calculator()
+    test = Calculator2()
     expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
     t1 = time.time()
     ans = test.calculate(expr)

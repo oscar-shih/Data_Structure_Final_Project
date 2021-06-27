@@ -196,7 +196,7 @@ class ParseTree:
     def output(self):
         return self.eval(self.root)
         
-class Calculator:
+class Calculator1:
     def __init__(self):
         self.rnd_to = 10
         self.angle  = True
@@ -212,14 +212,14 @@ class Calculator:
         tree.buildTree(expr)
         return round(tree.output(), self.rnd_to)
 
-if __name__  == "__main__":
-    test = Calculator()
-    expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
-    t1 = time.time()
-    ans = test.calculate(expr)
-    t2 = time.time()
-    print(ans)
-    print("time:",t2-t1)
+#if __name__  == "__main__":
+#    test = Calculator1()
+#    expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
+#    t1 = time.time()
+#    ans = test.calculate(expr)
+#    t2 = time.time()
+#    print(ans)
+#    print("time:",t2-t1)
 
 # function/operator:notation
 #   a:   pi
