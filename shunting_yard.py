@@ -5,11 +5,11 @@
 #           with operators and functions expressed in corresponding notations 
 #           (see page bottom)
 # Output:   type float
-# ToDo:     1. complex numbers
-#           2. checking for errors
+# ToDo:     error checking (complex numbers?)
 
 import numpy as np
 import math  
+import time
 
 class Calculator:
 
@@ -35,9 +35,9 @@ class Calculator:
 
     
     def toNum(self, char):
-        if(char == 'a'):
+        if(char == 'a'):    # pi
             return np.pi
-        if(char == 'b'):
+        if(char == 'b'):    # e
             return np.exp(1)
     
 
@@ -190,20 +190,12 @@ class Calculator:
 
 if __name__ == "__main__":
     test = Calculator()
-    expr = "12+4-c(21)^(0.5-1)+o(j(24.1/42)+f(0.24))"
-    print(expr,'=')
-    print(test.calculate(expr))
-
-    test.changeRnd(4)
-    print(expr,'=')
-    print(test.calculate(expr))
-    
-    print()
-    print(test.calculate("c(45)+d(60)"))
-    print(test.calculate("c(45)+d(r(a/3))"))
-    test.changeAngle()
-    print(test.calculate("c(a/4)+d(a/3)"))
-    print(test.calculate("c(a/4)+d(s(60))"))
+    expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
+    t1 = time.time()
+    ans = test.calculate(expr)
+    t2 = time.time()
+    print(ans)
+    print("time:",t2-t1)
 
 # function/operator:notation
 #   a:   pi
