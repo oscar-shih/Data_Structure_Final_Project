@@ -5,25 +5,34 @@
 #           with operators and functions expressed in corresponding notations 
 #           (see page bottom)
 # Output:   type float
-# ToDo:     1. conversion of complex types (any complex results would be displayed as 'nan' for now)
-#           2. conversion of degrees and radius
-#           3. absolute values
-#           4. factorials
-#           5. features for complex numbers
+# ToDo:     1. complex numbers
+#           2. checking for errors
 
 import numpy as np
+import math  
 
 class Calculator:
 
     def __init__(self):
-        self.rnd_to = 10
+        self.rnd_to = 10            # decimal points to round to
+        self.angle = True           # True for Degrees, False for Radius
+
         self.nums = "0123456789."
         self.codes = "ab"
-        self.funcs = "cdefghijklmn"
+        self.funcs = "cdefghijklmnop"
         self.ops = {'(':-1, '+':2, '-':2, '*':3, '/':3, '^':4, 'c':5, 'd':5,\
                     'e': 5, 'f':5, 'g':5, 'h':5, 'i':5, 'j':5, 'k':5, 'l':5,\
-                    'm': 5, 'n':5, 'o':5 }
- 
+                    'm': 5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5 }
+        # self.ops: operands/functions to corresponding precedence
+
+
+    def changeRnd(self, rnd):        # round to decimal points
+        self.rnd_to = abs(int(rnd))        
+
+
+    def changeAngle(self):     # evaluate angle in degrees/radius
+        self.angle = not self.angle   
+
     
     def toNum(self, char):
         if(char == 'a'):
@@ -77,32 +86,72 @@ class Calculator:
 
     
     def funcOp(self, x, func):      # functions
-        if(func == 'c'):    # sin()
-            return np.sin(x*np.pi/180)
-        if(func == 'd'):    # cos()
-            return np.cos(x*np.pi/180)
-        if(func == 'e'):    # tan()
-            return np.tan(x*np.pi/180)
-        if(func == 'f'):    # arcsin()
-            return np.arcsin(x)/np.pi*180
-        if(func == 'g'):    # arccos()
-            return np.arccos(x)/np.pi*180
-        if(func == 'h'):    # arctan()
-            return np.arctan(x)/np.pi*180
-        if(func == 'i'):    # square()
+        if(func == 'c'):    # sin(x)
+            if(self.angle):
+                return np.sin(x*np.pi/180)
+            return np.sin(x)
+
+        if(func == 'd'):    # cos(x)
+            if(self.angle):
+                return np.cos(x*np.pi/180)
+            return np.cos(x)
+
+        if(func == 'e'):    # tan(x)
+            if(self.angle):
+                return np.tan(x*np.pi/180)
+            return np.tan(x)
+
+        if(func == 'f'):    # arcsin(x)
+            if(self.angle):
+                return np.arcsin(x)/np.pi*180
+            return np.arcsin(x)
+
+        if(func == 'g'):    # arccos(x)
+            if(self.angle):
+                return np.arccos(x)/np.pi*180
+            return np.arccos(x)
+
+        if(func == 'h'):    # arctan(x)
+            if(self.angle):
+                return np.arctan(x)/np.pi*180
+            return np.arctan(x)
+
+        if(func == 'i'):    # square(x)
             return pow(x,2)
-        if(func == 'j'):    # cube()
+
+        if(func == 'j'):    # cube(x)
             return pow(x,3)
-        if(func == 'k'):    # exp()
+
+        if(func == 'k'):    # exp(x)
             return np.exp(x)
-        if(func == 'l'):    # square_root()
+
+        if(func == 'l'):    # square_root(x)
             return pow(x,(1/2))
-        if(func == 'm'):    # cubic_root()
+
+        if(func == 'm'):    # cubic_root(x)
             return pow(x,(1/3))
-        if(func == 'n'):    # log()
+
+        if(func == 'n'):    # log(x)
             return np.log10(x)
-        if(func == 'o'):    # ln()
+
+        if(func == 'o'):    # ln(x)
             return np.log(x)
+
+        if(func == 'p'):    # abs(x)
+            return abs(x)
+
+        if(func == 'q'):    # factorial(x)
+            return math.factorial(int(abs(x)))
+        
+        if(func == 'r'):    # deg(x)
+            if(self.angle):
+                return x/np.pi*180
+            return x
+    
+        if(func == 's'):    # rad(x)
+            if(self.angle):
+                return x
+            return x/180*np.pi
 
     def operate(self, x, y, op):    # operand calculation
         if(op == '+'):
@@ -123,7 +172,7 @@ class Calculator:
             temp = None
             if(type(i) == float): 
                 temp = i
-            elif(ascii(i) >= ascii('c') and ascii(i) <= ascii('o')):
+            elif(ascii(i) >= ascii('c') and ascii(i) <= ascii('s')):
                 temp = self.funcOp(numStack[-1], i)
                 numStack.pop()
             elif(type(i) == str):
@@ -141,9 +190,20 @@ class Calculator:
 
 if __name__ == "__main__":
     test = Calculator()
-    expr = "i(20)+k(i(3))"
+    expr = "12+4-c(21)^(0.5-1)+o(j(24.1/42)+f(0.24))"
     print(expr,'=')
     print(test.calculate(expr))
+
+    test.changeRnd(4)
+    print(expr,'=')
+    print(test.calculate(expr))
+    
+    print()
+    print(test.calculate("c(45)+d(60)"))
+    print(test.calculate("c(45)+d(r(a/3))"))
+    test.changeAngle()
+    print(test.calculate("c(a/4)+d(a/3)"))
+    print(test.calculate("c(a/4)+d(s(60))"))
 
 # function/operator:notation
 #   a:   pi
@@ -161,6 +221,10 @@ if __name__ == "__main__":
 #   m(): cubic_root()
 #   n(): log()
 #   o(): ln()
+#   p(): abs()
+#   q(): factorial()
+#   r(): deg()
+#   s(): rad()
 #   +:   addition
 #   -:   subtraction
 #   *:   multiplication
