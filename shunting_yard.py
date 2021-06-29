@@ -78,9 +78,9 @@ class Calculator3:
                 operators.pop()
 
             i += 1
-            #for j in rp_stack+operators[::-1]:
-            #    print(j, end = " ")
-            #print()
+            for j in rp_stack+operators[::-1]:
+                print(j, end = " ")
+            print()
 
         return rp_stack + operators[::-1]
 
@@ -163,6 +163,7 @@ class Calculator3:
         if(op == '/'):
             return x / y
         if(op == '^'):
+            print(x,y)
             return pow(x,y)
     
 
@@ -179,7 +180,7 @@ class Calculator3:
                 temp = self.operate(numStack[-2], numStack[-1], i)
                 numStack.pop()  
                 numStack.pop()
-            #print(temp)
+            print(temp)
             numStack.append(temp)
 
         return round(numStack[0], self.rnd_to)
@@ -190,7 +191,8 @@ class Calculator3:
 
 if __name__ == "__main__":
     test = Calculator3()
-    expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
+    exp = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
+    expr = "5-b^b+5/6/7"
     t1 = time.time()
     ans = test.calculate(expr)
     t2 = time.time()
