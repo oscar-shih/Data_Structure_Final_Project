@@ -10,6 +10,7 @@
 import numpy as np
 import math  
 import time
+import argparse
 
 class Calculator3:
 
@@ -172,7 +173,7 @@ class Calculator3:
             temp = None
             if(type(i) == float): 
                 temp = i
-            elif(ascii(i) >= ascii('c') and ascii(i) <= ascii('s')):
+            elif(repr(i) >= repr('c') and repr(i) <= repr('s')):
                 temp = self.funcOp(numStack[-1], i)
                 numStack.pop()
             elif(type(i) == str):
@@ -180,26 +181,47 @@ class Calculator3:
                 numStack.pop()  
                 numStack.pop()
             else:
-                print("exception!",i,type(i))
+                print("exception!", i, type(i))
             #print(temp)
-            numStack.append(float(temp))
+            numStack.append(temp)
 
         return round(numStack[0], self.rnd_to)
 
     def calculate(self, expr):
-        return self.findVal( self.genRP(expr) )
-         
+        ans = self.findVal(self.genRP(expr))
+        # print(ans)
+        return str(ans)
+    def main(self, input_path, output_path):
+        output = open(output_path, 'w')
+        with open(input_path, 'r') as file_in:
+            f = file_in.read().splitlines()
+            for lines in f:
+                ans = self.calculate(lines)
+                output.write(ans)
+                output.write('\n')
+
+
 
 if __name__ == "__main__":
-    test = Calculator3()
-    #expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
-    expr = "f(g(0.4)^h(0.2)/100)"
-
-    t1 = time.time()
-    ans = test.calculate(expr)
-    print(ans)
-    t2 = time.time()
-    print("time:",t2-t1)
+    # test = Calculator3()
+    # expr = []
+    # expr.append("a+b+c(50)+d(40-e(20))")
+    # expr.append("f(g(0.4)^h(0.2)/100)")
+    # expr.append("i(2)+j(45+j(20-5))*k(15-j(2))+l(15-m(m(24)))")
+    # expr.append("p(r(a/4)*s(45)-q(2)+n(100)-o(b^2))")
+    # print(expr)
+    # t1 = time.time()
+    # for i in range (0, 4):
+    #     ans = test.calculate(expr[i])
+    #     # print(ans)
+    # t2 = time.time()
+    # print("time:",t2-t1)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str, default='./input.txt',help="Input file root")
+    parser.add_argument("--output", type=str, default='./ouput.txt', help="Output file root")
+    args = parser.parse_args()
+    Cal = Calculator3()
+    Cal.main(args.input, args.output) 
 
 # function/operator:notation
 #   a:   pi
