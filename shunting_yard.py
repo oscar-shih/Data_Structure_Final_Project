@@ -182,7 +182,7 @@ class Calculator3:
             else:
                 print("exception!",i,type(i))
             #print(temp)
-            numStack.append(temp)
+            numStack.append(float(temp))
 
         return round(numStack[0], self.rnd_to)
 
@@ -192,12 +192,13 @@ class Calculator3:
 
 if __name__ == "__main__":
     test = Calculator3()
-    exp = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
-    expr = "5-b^b+5/6/7"
+    #expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
+    expr = "f(g(0.4)^h(0.2)/100)"
+
     t1 = time.time()
     ans = test.calculate(expr)
-    t2 = time.time()
     print(ans)
+    t2 = time.time()
     print("time:",t2-t1)
 
 # function/operator:notation

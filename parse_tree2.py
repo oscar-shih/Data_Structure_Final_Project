@@ -32,9 +32,9 @@ class ParseTree2:
 
     def toNum(self, char):
         if(char == 'a'):    # pi
-            return np.pi
+            return float(np.pi)
         if(char == 'b'):    # e
-            return np.exp(1)
+            return float(np.exp(1))
 
 
     def buildTree(self, expr):
@@ -44,8 +44,11 @@ class ParseTree2:
         current = self.root.l_child
         
         i = 0
+        was_index = False
+        first_index = None
         while i < len(expr):
-            char = expr[i]
+            char = expr[i]  
+   
             if(char in self.nums):
                 temp = ""
                 while(i < len(expr) and expr[i] in self.nums):
@@ -70,16 +73,25 @@ class ParseTree2:
             elif(char in self.funcs):
                 current.content = char
 
-            elif(char in self.ops):           
+            elif(char in self.ops):       
+                
+                if(char != '^' and was_index):
+                    was_index = False   
+                    current = self.root
+                    #if(first_index == None):
+                    #    print("is none!")
 
                 if(current.content):    # current node not empty
                     new_node = Node2(char)
                     # current node has lower precedence -> new node is child of current node
-                    if(self.ops.get(char) > self.ops.get(current.content) ):   
+                    if(self.ops.get(char) > self.ops.get(current.content)\
+                    or char == '^'):  
+                        #print(char,"takes path Down") 
                         new_node.l_child, current.r_child.parent = current.r_child, new_node
                         current.r_child, new_node.parent = new_node, current
                     # current node has higher precedence -> new node is parent of current node
                     else:
+                        #print(char,"takes path Up")
                         if(current.parent != None):
                             new_node.parent = current.parent
                             if(current.parent.l_child == current):
@@ -93,10 +105,14 @@ class ParseTree2:
 
                 else:                    # current node is empty -> fill in operand
                     current.content = char
+            
+                if(char == '^'):
+                    was_index = True
                     
                 current.r_child = Node2(None)
                 current.r_child.parent = current
                 current = current.r_child
+ 
             i+=1
 
         if(self.root.content == None):
@@ -121,6 +137,9 @@ class ParseTree2:
 
         if(cmd == '/'):
             return self.eval(node.l_child) / self.eval(node.r_child)
+        
+        if(cmd == '^'):
+            return self.eval(node.l_child) ** self.eval(node.r_child)
 
         if(cmd == 'c'):    # sin(x)
             if(self.angle):
@@ -214,7 +233,8 @@ class Calculator2:
 
 if __name__  == "__main__":
     test = Calculator2()
-    expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
+    #expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
+    expr = "2-2^3^2+1"
     t1 = time.time()
     ans = test.calculate(expr)
     t2 = time.time()
