@@ -62,14 +62,8 @@ def translate(input):
 
         elif(char == 'q'):    # factorial(x)
             output += "factorial"
-        
-        elif(char == 'r'):    # deg(x)
-            output += "degrees"
     
-        elif(char == 's'):    # rad(x)
-            output += "radians"
-    
-        elif(char == 't'):
+        elif(char == 'r'):
             continue
     
         else:

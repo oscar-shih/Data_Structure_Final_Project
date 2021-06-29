@@ -26,7 +26,7 @@ class ParseTree2:
         self.funcs = "cdefghijklmnop"
         self.ops = {'(':-1, '+':2, '-':2, '*':3, '/':3, '^':4, 'c':5, 'd':5,\
                     'e': 5, 'f':5, 'g':5, 'h':5, 'i':5, 'j':5, 'k':5, 'l':5,\
-                    'm': 5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5 }
+                    'm': 5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5}
         self.root = Node2(None)
 
 
@@ -116,7 +116,7 @@ class ParseTree2:
             i+=1
 
         if(self.root.content == None):
-            self.root.content = 's'
+            self.root.content = 'r'
 
     
     def eval(self, node):
@@ -197,18 +197,8 @@ class ParseTree2:
 
         if(cmd == 'q'):    # factorial(x)
             return math.factorial(int(abs(self.eval(node.l_child))))
-        
-        if(cmd == 'r'):    # deg(x)
-            if(self.angle):
-                return self.eval(node.l_child)/np.pi*180
-            return self.eval(node.l_child)
     
-        if(cmd == 's'):    # rad(x)
-            if(self.angle):
-                return self.eval(node.l_child)
-            return self.eval(node.l_child)/180*np.pi
-    
-        if(cmd == 't'):    # for void root
+        if(cmd == 'r'):    # for void root
             return self.eval(node.l_child)
         
 
@@ -233,8 +223,8 @@ class Calculator2:
 
 if __name__  == "__main__":
     test = Calculator2()
-    #expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
-    expr = "2-2^3^2+1"
+    expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
+
     t1 = time.time()
     ans = test.calculate(expr)
     t2 = time.time()
@@ -259,9 +249,7 @@ if __name__  == "__main__":
 #   o(): ln()
 #   p(): abs()
 #   q(): factorial()
-#   r(): deg()
-#   s(): rad()
-#   t(): special function for void root
+#   r(): special function for void root
 #   +:   addition
 #   -:   subtraction
 #   *:   multiplication

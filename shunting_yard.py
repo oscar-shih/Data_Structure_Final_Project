@@ -22,7 +22,7 @@ class Calculator3:
         self.funcs = "cdefghijklmnop"
         self.ops = {'(':-1, '+':2, '-':2, '*':3, '/':3, '^':4, 'c':5, 'd':5,\
                     'e': 5, 'f':5, 'g':5, 'h':5, 'i':5, 'j':5, 'k':5, 'l':5,\
-                    'm': 5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5 }
+                    'm': 5, 'n':5, 'o':5, 'p':5, 'q':5}
         # self.ops: operands/functions to corresponding precedence
 
 
@@ -143,15 +143,6 @@ class Calculator3:
         if(func == 'q'):    # factorial(x)
             return math.factorial(int(abs(x)))
         
-        if(func == 'r'):    # deg(x)
-            if(self.angle):
-                return x/np.pi*180
-            return x
-    
-        if(func == 's'):    # rad(x)
-            if(self.angle):
-                return x
-            return x/180*np.pi
 
     def operate(self, x, y, op):    # operand calculation
         if(op == '+'):
@@ -172,7 +163,7 @@ class Calculator3:
             temp = None
             if(type(i) == float): 
                 temp = i
-            elif(ascii(i) >= ascii('c') and ascii(i) <= ascii('s')):
+            elif(ascii(i) >= ascii('c') and ascii(i) <= ascii('q')):
                 temp = self.funcOp(numStack[-1], i)
                 numStack.pop()
             elif(type(i) == str):
@@ -192,8 +183,7 @@ class Calculator3:
 
 if __name__ == "__main__":
     test = Calculator3()
-    #expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
-    expr = "f(g(0.4)^h(0.2)/100)"
+    expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
 
     t1 = time.time()
     ans = test.calculate(expr)
