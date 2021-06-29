@@ -36,9 +36,9 @@ class Calculator3:
     
     def toNum(self, char):
         if(char == 'a'):    # pi
-            return np.pi
+            return float(np.pi)
         if(char == 'b'):    # e
-            return np.exp(1)
+            return float(np.exp(1))
     
 
     def genRP(self, expr):  # converts inflix to reverse polish
@@ -78,9 +78,9 @@ class Calculator3:
                 operators.pop()
 
             i += 1
-            for j in rp_stack+operators[::-1]:
-                print(j, end = " ")
-            print()
+            #for j in rp_stack+operators[::-1]:
+            #    print(j, end = " ")
+            #print()
 
         return rp_stack + operators[::-1]
 
@@ -163,7 +163,6 @@ class Calculator3:
         if(op == '/'):
             return x / y
         if(op == '^'):
-            print(x,y)
             return pow(x,y)
     
 
@@ -180,7 +179,9 @@ class Calculator3:
                 temp = self.operate(numStack[-2], numStack[-1], i)
                 numStack.pop()  
                 numStack.pop()
-            print(temp)
+            else:
+                print("exception!",i,type(i))
+            #print(temp)
             numStack.append(temp)
 
         return round(numStack[0], self.rnd_to)
