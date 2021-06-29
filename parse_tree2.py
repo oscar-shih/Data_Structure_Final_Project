@@ -5,7 +5,7 @@
 #           with operators and functions expressed in corresponding notations 
 #           (see page bottom)
 # Output:   type float
-# ToDo:     index feature
+
 
 import numpy as np
 import math
