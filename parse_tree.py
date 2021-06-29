@@ -75,11 +75,7 @@ class ParseTree1:
         for i in range(len(expr)):
             if(rk[i] > rk[max]):
                 max = i
-    
-        if(i == 3):
-            for i in range(len(expr)-1, -1):
-                if(rk[i] >= rk[max]):
-                    max = i
+  
         
         node.content = expr[max]
         node.r_child, node.l_child = Node1(None), Node1(None)
