@@ -73,8 +73,14 @@ class ParseTree1:
 
         max = 0
         for i in range(len(expr)):
-            if(rk[i] > rk[max]):
+            if(rk[i] >= rk[max]):
                 max = i
+
+        if(rk[max] >= 4):
+            max = 0
+            for i in range(len(expr)):
+                if(rk[i] > rk[max]):
+                    max = i
   
         
         node.content = expr[max]
@@ -189,7 +195,7 @@ class Calculator1:
 if __name__ == "__main__":
     test = Calculator1()
     #expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
-    expr = "2^3^2"
+    expr = "2^3^2+2*3-2^3^2"
 
     t1 = time.time()
     ans = test.calculate(expr)
