@@ -15,7 +15,7 @@ import argparse
 class Calculator3:
 
     def __init__(self):
-        self.rnd_to = 10            # decimal points to round to
+        self.rnd_to = 3            # decimal points to round to
         self.angle = True           # True for Degrees, False for Radius
 
         self.nums = "0123456789."
@@ -175,13 +175,14 @@ class Calculator3:
                 print("exception!", i, type(i))
             #print(temp)
             numStack.append(temp)
-
+          
         return round(numStack[0], self.rnd_to)
 
     def calculate(self, expr):
         ans = self.findVal(self.genRP(expr))
         # print(ans)
         return str(ans)
+
     def main(self, input_path, output_path):
         output = open(output_path, 'w')
         with open(input_path, 'r') as file_in:
@@ -194,6 +195,10 @@ class Calculator3:
 
 
 if __name__ == "__main__":
+    test = Calculator3()
+    expr = "d((m(p(2.718))))"
+    print(test.calculate(expr))
+
     # test = Calculator3()
     # expr = []
     # expr.append("a+b+c(50)+d(40-e(20))")
@@ -207,12 +212,13 @@ if __name__ == "__main__":
     #     # print(ans)
     # t2 = time.time()
     # print("time:",t2-t1)
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--input", type=str, default='./input.txt',help="Input file root")
-    parser.add_argument("--output", type=str, default='./ouput.txt', help="Output file root")
-    args = parser.parse_args()
-    Cal = Calculator3()
-    Cal.main(args.input, args.output) 
+
+    #parser = argparse.ArgumentParser()
+    #parser.add_argument("--input", type=str, default='./input.txt',help="Input file root")
+    #parser.add_argument("--output", type=str, default='./ouput.txt', help="Output file root")
+    #args = parser.parse_args()
+    #Cal = Calculator3()
+    #Cal.main(args.input, args.output) 
 
 # function/operator:notation
 #   a:   pi
