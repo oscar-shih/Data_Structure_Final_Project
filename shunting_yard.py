@@ -15,7 +15,7 @@ import argparse
 class Calculator3:
 
     def __init__(self):
-        self.rnd_to = 10            # decimal points to round to
+        self.rnd_to = 3          # decimal points to round to
         self.angle = True           # True for Degrees, False for Radius
 
         self.nums = "0123456789."
@@ -23,7 +23,7 @@ class Calculator3:
         self.funcs = "cdefghijklmnop"
         self.ops = {'(':-1, '+':2, '-':2, '*':3, '/':3, '^':4, 'c':5, 'd':5,\
                     'e': 5, 'f':5, 'g':5, 'h':5, 'i':5, 'j':5, 'k':5, 'l':5,\
-                    'm': 5, 'n':5, 'o':5, 'p':5, 'q':5}
+                    'm': 5, 'n':5, 'o':5, 'p':5, 'q':5, 'r':5, 's':5 }
         # self.ops: operands/functions to corresponding precedence
 
 
@@ -144,6 +144,15 @@ class Calculator3:
         if(func == 'q'):    # factorial(x)
             return math.factorial(int(abs(x)))
         
+        if(func == 'r'):    # deg(x)
+            if(self.angle):
+                return x/np.pi*180
+            return x
+    
+        if(func == 's'):    # rad(x)
+            if(self.angle):
+                return x
+            return x/180*np.pi
 
     def operate(self, x, y, op):    # operand calculation
         if(op == '+'):
@@ -164,7 +173,7 @@ class Calculator3:
             temp = None
             if(type(i) == float): 
                 temp = i
-            elif(ascii(i) >= ascii('c') and ascii(i) <= ascii('q')):
+            elif(repr(i) >= repr('c') and repr(i) <= repr('s')):
                 temp = self.funcOp(numStack[-1], i)
                 numStack.pop()
             elif(type(i) == str):
@@ -186,10 +195,13 @@ class Calculator3:
         output = open(output_path, 'w')
         with open(input_path, 'r') as file_in:
             f = file_in.read().splitlines()
+            t1 = time.time()
             for lines in f:
                 ans = self.calculate(lines)
                 output.write(ans)
                 output.write('\n')
+            t2 = time.time()
+            print('time:'+str(t2-t1))
 
 
 
@@ -208,8 +220,8 @@ if __name__ == "__main__":
     # t2 = time.time()
     # print("time:",t2-t1)
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", type=str, default='./input.txt',help="Input file root")
-    parser.add_argument("--output", type=str, default='./ouput.txt', help="Output file root")
+    parser.add_argument("--input", type=str, default='./input_1.txt',help="Input file root")
+    parser.add_argument("--output", type=str, default='./output_1.txt', help="Output file root")
     args = parser.parse_args()
     Cal = Calculator3()
     Cal.main(args.input, args.output) 
@@ -232,8 +244,6 @@ if __name__ == "__main__":
 #   o(): ln()
 #   p(): abs()
 #   q(): factorial()
-#   r(): deg()
-#   s(): rad()
 #   +:   addition
 #   -:   subtraction
 #   *:   multiplication
