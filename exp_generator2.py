@@ -23,16 +23,19 @@ class Generator2:
         string = ""
         chance = rd.random()
         if(chance <= self.p_nm):
-            string = str(rd.randint(0, (10**self.dec)-1)/(10**self.dec)\
-            + rd.randint(0, self.i_lmt-1))
+            string = str( round( rd.randint(1, 10**self.dec)/(10**self.dec)\
+            + rd.randint(0, self.i_lmt-1), self.dec) )
+
         elif(chance >= self.p_nm + (1-(self.p_nm/2))):
-            string = str(round(np.pi, 3))
+            string = str(round(np.pi, self.dec))
+
         else:
-            string = str(round(np.e , 3))
+            string = str(round(np.e, self.dec))
+
         return string
 
 
-    def randPar(self, string):  # paranthesis or not
+    def randPar(self, string):  # add paranthesis or not
         chance = rd.random()
         if(chance <= self.p_pr):
             string = "(" + string + ")"
@@ -43,18 +46,21 @@ class Generator2:
         string = ""
         chance = rd.random()
 
-        if chance <= self.p_op: # operands: +-*/^
+        if chance <= self.p_op: 
             string = self.ops[rd.randint(0, 4)]
-            string = self.pool[rd.randint(0, len(self.pool)-1)] + string
-            if(string[-1] == '^'):
-                string = string + "l(p(" + self.pool[rd.randint(0, len(self.pool)-1)] + "))"
+            
+            # for '^': abs(X) ^ log(abs(Y)) to avoid complex numbers and overflowing
+            if(string == "^"):              
+                string = "p(" + self.pool[rd.randint(0, len(self.pool)-1)] + ")"\
+                         + string + "n(p(" + self.pool[rd.randint(0, len(self.pool)-1)] + "))"
             else:
-                string = string + self.pool[rd.randint(0, len(self.pool)-1)]
+                string = self.pool[rd.randint(0, len(self.pool)-1)] + string \
+                         + self.pool[rd.randint(0, len(self.pool)-1)]
 
-        else:                   # functions: c ~ r
+        else:                   
             string = self.funcs[rd.randint(0, 15)]
             input = self.pool[rd.randint(0, len(self.pool)-1)]
-            #print("\nBEFORE:",input)
+  
             # positive input for sqrt(), ln(), log()
             if(string in "lmno"):
                 string =  string + "(p(" + input + "))"
@@ -66,8 +72,7 @@ class Generator2:
                             
             else:
                 string = string + "(" + input + ")"
-            #print("AFTER:",string,"")  
-                
+
         return string
 
 
@@ -82,7 +87,6 @@ class Generator2:
         if(not self.pool):      # if pool is empty, generate seeds
             for i in range(qty):
                 self.pool.append(self.genSeed())  
-            #print("\n",self.pool,"\n")
             print("SEED INITIALIZED\n")
         
         else:                   # else, generate new entries from old ones
@@ -90,12 +94,12 @@ class Generator2:
             for i in range(qty):
                 expr = self.randOpFunc()
                 ans = self.cal.calculate(expr)
-                #print(expr,"= ", ans)
+
                 if(ans != "nan" and -1*self.p_lmt <= float(ans) and self.p_lmt >= float(ans)):
                     fed += 1
                     expr = self.randPar(self.randOpFunc())
                     self.pool.append(expr)
-            #print("\n",self.pool,"\n")
+
             print("\nACCEPTANCE RATE:", round(fed*100/qty,2), "%")
 
         return self.pool
@@ -107,8 +111,8 @@ if __name__ == "__main__":
     # dcml, p_limit, i_limit, prob_op, prob_nm, prob_par, calculator
 
     it = 5
-    qty = 20
-    for i in range(it+1):
+    qty = 40
+    for i in range(it):
         test.feedPool(qty)
     
     print("\n",test.pool)
