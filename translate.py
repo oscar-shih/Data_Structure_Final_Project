@@ -62,8 +62,14 @@ def translate(input):
 
         elif(char == 'q'):    # factorial(x)
             output += "factorial"
+        
+        elif(char == 'r'):    # deg(x)
+            output += "degrees"
     
-        elif(char == 'r'):
+        elif(char == 's'):    # rad(x)
+            output += "radians"
+    
+        elif(char == 't'):
             continue
     
         else:
@@ -92,8 +98,8 @@ def translate(input):
 if __name__ == "__main__":
     expr1 = "a+b+c(50)+d(40-e(20))"
     expr2 = "f(g(0.4)^h(0.2)/100)"
-    expr3 = "i(2)+j(45+j(20-5))*k(15-j(2))+l(15-m(m(24)))"
-    expr4 = "p(r(a/4)*s(45)-q(2)+n(100)-o(b^2))"
+    expr3 = "p(6.6/210-46^3/6016-96*9.1-8^3+7.01)"
+    expr4 = "a/o(8*b^b)-e(80)-f(0.8)+f(0.8)-q(15)-i(11)+l(100)"
     
     print(translate(expr1))
     print(translate(expr2))

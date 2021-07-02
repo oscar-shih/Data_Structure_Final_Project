@@ -6,16 +6,13 @@ import shunting_yard as sy
 class Generator:
     def __init__(self):
         self.oprs = "+-*/"
-        self.nums = ['1.419','3.348','7.52','51','12','0.318','0.2234','a','b','1.34','0.37'\
-                    ,'b^2','i(12)','h(11.4)','o(b^2)','c(45)','d(30)','e(14)']   
-
-    def genExp(self,length):
+        self.nums = ['a^a', 'a+b', 'b^3', 'c(140.5)', 'd(138)', 'e(237)','f(0.123)', 'g(0-0.4265)','h(72)','i(6.666)', 'j(7.777)', 'k(8)', 'l(878791)', 'm(11174148)', 'n(8*10^9-3.19*10^7)', 'o(8*a+b^b)', 'p(18^2-3^11)', 'q(q(3))']
+    def genExp(self, length):
         exp = ""
         for i in range(length//2):
-            exp += self.nums[random.randint(0,len(self.nums)-1)]
-            exp += self.oprs[random.randint(0,3)]
-        exp += self.nums[random.randint(0,len(self.nums)-1)]
-        print(exp)
+            exp += self.nums[random.randint(0, len(self.nums)-1)]
+            exp += self.oprs[random.randint(0, 3)]
+        exp += self.nums[random.randint(0, len(self.nums)-1)]
         return exp
 
 
@@ -24,8 +21,11 @@ if __name__ == '__main__':
     # inputs: m mathematical expressions each with length l
     test = Generator()
     inputs = []
-    m, l = 20, 10
+    path = 'correct_5.txt'
+    f = open(path, 'w')
+    m, l = 15, 19
     for i in range(m):
+        print(test.genExp(l), file=f)
         inputs.append(test.genExp(l))
     
     # time comparison
