@@ -1,11 +1,32 @@
 RED='\033[1;31m'
 GREEN='\033[1;32m'
 NC='\033[0m' # No Color
+
 echo "==evaluating correctness=="
-for i in $(seq 0 4); do
-    python shunting_yard.py --input test_data/input_${i}.txt --output output_${i}.txt
-    dline_py=$(diff output_${i}.txt test_ans/golden_${i}.txt |  wc | awk -F ' ' '{print $1}')
-    if [ "${dline_py}" == "0" ] && [ -f output_${i}.txt ] && [ -f test_ans/golden_${i}.txt ] ; then
+for i in $(seq 1 5); do
+    python parse_tree.py --input correctness/correct_${i}.txt --output pt_output_${i}.txt
+    dline_py=$(diff pt_output_${i}.txt correct_ans/golden_${i}.txt |  wc | awk -F ' ' '{print $1}')
+    if [ "${dline_py}" == "0" ] && [ -f pt_output_${i}.txt ] && [ -f correct_ans/golden_${i}.txt ] ; then
+        echo -e "${GREEN}parse_tree.py is correct in test case: input_${i}.txt${NC}"
+    else
+        echo -e "${RED}parse_tree.py is incorrect in test case: input_${i}.txt${NC}"
+    fi
+done
+
+for i in $(seq 1 5); do
+    python parse_tree2.py --input correctness/correct_${i}.txt --output pt2_output_${i}.txt
+    dline_py=$(diff pt2_output_${i}.txt correct_ans/golden_${i}.txt |  wc | awk -F ' ' '{print $1}')
+    if [ "${dline_py}" == "0" ] && [ -f pt2_output_${i}.txt ] && [ -f correct_ans/golden_${i}.txt ] ; then
+        echo -e "${GREEN}parse_tree2.py is correct in test case: input_${i}.txt${NC}"
+    else
+        echo -e "${RED}parse_tree2.py is incorrect in test case: input_${i}.txt${NC}"
+    fi
+done
+
+for i in $(seq 1 5); do
+    python shunting_yard.py --input correctness/correct_${i}.txt --output sy_output_${i}.txt
+    dline_py=$(diff sy_output_${i}.txt correct_ans/golden_${i}.txt |  wc | awk -F ' ' '{print $1}')
+    if [ "${dline_py}" == "0" ] && [ -f sy_output_${i}.txt ] && [ -f correct_ans/golden_${i}.txt ] ; then
         echo -e "${GREEN}shunting_yard.py is correct in test case: input_${i}.txt${NC}"
     else
         echo -e "${RED}shunting_yard.py is incorrect in test case: input_${i}.txt${NC}"

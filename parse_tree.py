@@ -2,11 +2,10 @@
 #           with operators and functions expressed in corresponding notations 
 #           (see page bottom)
 # Output:   type float
-
-
 import numpy as np
 import math
 import time
+import argparse
 
 class Node1:
     def __init__(self, c):
@@ -20,10 +19,10 @@ class ParseTree1:
         self.angle = a
         self.nums = "0123456789."
         self.codes = "ab"
-        self.funcs = "cdefghijklmnop"
+        self.funcs = "cdefghijklmnopq"
         self.ops = {'(':-1, '+':5, '-':5, '*':4, '/':4, '^':3, 'c':2, 'd':2,\
                     'e': 2, 'f':2, 'g':2, 'h':2, 'i':2, 'j':2, 'k':2, 'l':2,\
-                    'm': 2, 'n':2, 'o':2, 'p':2, 'q':2, 'r':2, 's':2 }
+                    'm': 2, 'n':2, 'o':2, 'p':2, 'q':2 }
         self.root = Node1(None)
     
     
@@ -178,7 +177,7 @@ class ParseTree1:
 
 class Calculator1:
     def __init__(self):
-        self.rnd_to = 10
+        self.rnd_to = 3
         self.angle = True 
     
     def changeRnd(self, rnd):        # round to decimal points
@@ -187,22 +186,38 @@ class Calculator1:
     def changeAngle(self):     # evaluate angle in degrees/radius
         self.angle = not self.angle
 
-    def calculate(self,expr):
+    def calculate(self, expr):
         tree = ParseTree1(self.angle)
-        return round(tree.output(expr), self.rnd_to)
-        
+        ans  = round(tree.output(expr), self.rnd_to)
+        return str(ans)
 
+    def main(self, input_path, output_path):
+        output = open(output_path, 'w')
+        with open(input_path, 'r') as file_in:
+            f = file_in.read().splitlines()
+            t1 = time.time()
+            for lines in f:
+                ans = self.calculate(lines)    
+                output.write(ans)
+                output.write('\n')
+            t2 = time.time()
+            print('time:'+str(t2-t1))
 if __name__ == "__main__":
-    test = Calculator1()
-    #expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
-    expr = "2^3^2+(2*3-2^3^2)"
+    # test = Calculator1()
+    # #expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
+    # expr = "2^3^2+(2*3-2^3^2)"
 
-    t1 = time.time()
-    ans = test.calculate(expr)
-    t2 = time.time()
-    print(ans)
-    print("time:",t2-t1)
-    
+    # t1 = time.time()
+    # ans = test.calculate(expr)
+    # t2 = time.time()
+    # print(ans)
+    # print("time:",t2-t1)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str, default='./correctness/correct_1.txt',help="Input file root")
+    parser.add_argument("--output", type=str, default='./ouput_1.txt', help="Output file root")
+    args = parser.parse_args()
+    Cal = Calculator1()
+    Cal.main(args.input, args.output) 
 # function/operator:notation
 #   a:   pi
 #   b:   e

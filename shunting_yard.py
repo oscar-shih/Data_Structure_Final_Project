@@ -1,4 +1,3 @@
-
 # Reference: Shunting-yard Algorithm (Wikipedia) 
 #            https://en.wikipedia.org/wiki/Shunting-yard_algorithm
 # 
@@ -16,15 +15,15 @@ import argparse
 class Calculator3:
 
     def __init__(self):
-        self.rnd_to = 3            # decimal points to round to
+        self.rnd_to = 3          # decimal points to round to
         self.angle = True           # True for Degrees, False for Radius
 
         self.nums = "0123456789."
         self.codes = "ab"
-        self.funcs = "cdefghijklmnop"
+        self.funcs = "cdefghijklmnopq"
         self.ops = {'(':-1, '+':2, '-':2, '*':3, '/':3, '^':4, 'c':5, 'd':5,\
                     'e': 5, 'f':5, 'g':5, 'h':5, 'i':5, 'j':5, 'k':5, 'l':5,\
-                    'm': 5, 'n':5, 'o':5, 'p':5, 'q':5}
+                    'm': 5, 'n':5, 'o':5, 'p':5, 'q':5 }
         # self.ops: operands/functions to corresponding precedence
 
 
@@ -145,6 +144,15 @@ class Calculator3:
         if(func == 'q'):    # factorial(x)
             return math.factorial(int(abs(x)))
         
+        if(func == 'r'):    # deg(x)
+            if(self.angle):
+                return x/np.pi*180
+            return x
+    
+        if(func == 's'):    # rad(x)
+            if(self.angle):
+                return x
+            return x/180*np.pi
 
     def operate(self, x, y, op):    # operand calculation
         if(op == '+'):
@@ -165,59 +173,45 @@ class Calculator3:
             temp = None
             if(type(i) == float): 
                 temp = i
-            elif(ascii(i) >= ascii('c') and ascii(i) <= ascii('q')):
+            elif(repr(i) >= repr('c') and repr(i) <= repr('q')):
                 temp = self.funcOp(numStack[-1], i)
                 numStack.pop()
             elif(type(i) == str):
                 temp = self.operate(numStack[-2], numStack[-1], i)
                 numStack.pop()  
                 numStack.pop()
-
+            else:
+                print("exception!", i, type(i))
+            #print(temp)
             numStack.append(temp)
-          
+
         return round(numStack[0], self.rnd_to)
 
     def calculate(self, expr):
         ans = self.findVal(self.genRP(expr))
         # print(ans)
         return str(ans)
-
     def main(self, input_path, output_path):
         output = open(output_path, 'w')
         with open(input_path, 'r') as file_in:
             f = file_in.read().splitlines()
+            t1 = time.time()
             for lines in f:
                 ans = self.calculate(lines)
                 output.write(ans)
                 output.write('\n')
+            t2 = time.time()
+            print('time:'+str(t2-t1))
 
 
 
 if __name__ == "__main__":
-    test = Calculator3()
-    expr = "d((m(p(2.718))))"
-    print(test.calculate(expr))
-
-    # test = Calculator3()
-    # expr = []
-    # expr.append("a+b+c(50)+d(40-e(20))")
-    # expr.append("f(g(0.4)^h(0.2)/100)")
-    # expr.append("i(2)+j(45+j(20-5))*k(15-j(2))+l(15-m(m(24)))")
-    # expr.append("p(r(a/4)*s(45)-q(2)+n(100)-o(b^2))")
-    # print(expr)
-    # t1 = time.time()
-    # for i in range (0, 4):
-    #     ans = test.calculate(expr[i])
-    #     # print(ans)
-    # t2 = time.time()
-    # print("time:",t2-t1)
-
-    #parser = argparse.ArgumentParser()
-    #parser.add_argument("--input", type=str, default='./input.txt',help="Input file root")
-    #parser.add_argument("--output", type=str, default='./ouput.txt', help="Output file root")
-    #args = parser.parse_args()
-    #Cal = Calculator3()
-    #Cal.main(args.input, args.output) 
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str, default='./input.txt',help="Input file root")
+    parser.add_argument("--output", type=str, default='./ouput.txt', help="Output file root")
+    args = parser.parse_args()
+    Cal = Calculator3()
+    Cal.main(args.input, args.output) 
 
 # function/operator:notation
 #   a:   pi
@@ -237,10 +231,9 @@ if __name__ == "__main__":
 #   o(): ln()
 #   p(): abs()
 #   q(): factorial()
-#   r(): deg()
-#   s(): rad()
 #   +:   addition
 #   -:   subtraction
 #   *:   multiplication
 #   /:   division
 #   ^:   power
+#   .:   decimal point
