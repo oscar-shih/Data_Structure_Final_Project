@@ -41,12 +41,14 @@ class ParseTree2:
         self.root.l_child.parent = self.root
         current = self.root.l_child
         
-        i = 0
         was_index = False
-        first_index = None
+        count_idx = 0
+        par_bound = []
+
+        i = 0
         while i < len(expr):
             char = expr[i]  
-   
+           
             if(char in self.nums):
                 temp = ""
                 while(i < len(expr) and expr[i] in self.nums):
@@ -61,56 +63,96 @@ class ParseTree2:
                 current = current.parent
 
             elif(char == '('):
+                if(current.parent.content):
+                    #print("current.parent.content exists")
+                    par_bound.append(current.parent)
+
+            elif(char == ')'):
+                if(par_bound):
+                    par_bound.pop()
+
+            elif(char in self.funcs):
+                current.content = char
                 current.l_child = Node2(None)
                 current.l_child.parent = current
                 current = current.l_child
 
-            elif(char == ')'):
-                current = current.parent
+            ## char is operand starts here
+            elif(char in self.ops):
 
-            elif(char in self.funcs):
-                current.content = char
-
-            elif(char in self.ops):       
-                
                 if(char != '^' and was_index):
-                    was_index = False   
-                    current = self.root
-                    #if(first_index == None):
-                    #    print("is none!")
+                    #print(count_idx)
+                    #print("current was",current.content)
+                    for j in range(count_idx):
+                        current = current.parent
+                    #print("current is now",current.content)
+                    count_idx = 0
+                    was_index = False
+    
 
-                if(current.content):    # current node not empty
-                    new_node = Node2(char)
-                    # current node has lower precedence -> new node is child of current node
+                #if(not current):
+                    #print("current is void")    
+                
+                if(not current.content):
+                    #print(char,"filled in")
+                    current.content = char
+                    current.r_child = Node2(None)
+                    current.r_child.parent = current
+                    current = current.r_child
+                           
+                else:
                     if(self.ops.get(char) > self.ops.get(current.content)\
-                    or char == '^'):  
-                        #print(char,"takes path Down") 
-                        new_node.l_child, current.r_child.parent = current.r_child, new_node
-                        current.r_child, new_node.parent = new_node, current
-                    # current node has higher precedence -> new node is parent of current node
+                    or (par_bound and par_bound[-1] == current) or char == '^'):
+                        new_node = Node2(char)
+                        if(current.r_child):
+                            #print(char,"takes path DOWN RIGHT")
+                            new_node.l_child = current.r_child
+                            new_node.l_child.parent = new_node
+                            current.r_child = new_node
+                            new_node.parent = current
+                            new_node.r_child = Node2(None)
+                            new_node.r_child.parent = new_node
+                            current = new_node.r_child
+                        else:
+                            #print(char,"takes path DOWN LEFT")
+                            new_node.l_child =  current.l_child
+                            new_node.l_child.parent = new_node
+                            current.l_child = new_node
+                            new_node.parent = current
+                            new_node.r_child = Node2(None)
+                            new_node.r_child.parent = new_node
+                            current = new_node.r_child
+                    
                     else:
-                        #print(char,"takes path Up")
-                        if(current.parent != None):
+                        #print(char,current.content,"takes path UP")
+                        while(current.parent and current.parent.content and\
+                        self.ops.get(char) <= self.ops.get(current.parent.content)\
+                        and (not par_bound or current.parent != par_bound[-1])):
+                            current = current.parent
+                            # current is child of new node
+
+                        new_node = Node2(char)
+                        if(current.parent):
                             new_node.parent = current.parent
                             if(current.parent.l_child == current):
-                               current.parent.l_child = new_node
-                            else:
-                                current.parent.r_child = new_node
-                        else:
-                            self.root = new_node
-                        new_node.l_child, current.parent = current, new_node   
-                    current = new_node
+                                current.parent.l_child = new_node
+                            elif(current.parent.r_child == current):
+                                current. parent.r_child  = new_node
 
-                else:                    # current node is empty -> fill in operand
-                    current.content = char
+                        new_node.l_child = current
+                        current.parent = new_node
+                        new_node.r_child = Node2(None)
+                        new_node.r_child.parent = new_node
+                        current = new_node.r_child 
             
+                        while(self.root.parent):
+                            self.root = self.root.parent
+
                 if(char == '^'):
                     was_index = True
-                    
-                current.r_child = Node2(None)
-                current.r_child.parent = current
-                current = current.r_child
- 
+                    count_idx += 1
+
+            ## char is operand ends here
             i+=1
 
         if(self.root.content == None):
@@ -119,25 +161,28 @@ class ParseTree2:
     
     def eval(self, node):
         cmd = node.content
-        #print(cmd)
-
+ 
         if(type(cmd) == float):
             return cmd
-
-        if(cmd == '+'):
-            return self.eval(node.l_child) + self.eval(node.r_child)
-
-        if(cmd == '-'):
-            return self.eval(node.l_child) - self.eval(node.r_child) 
-         
-        if(cmd == '*'):
-            return self.eval(node.l_child) * self.eval(node.r_child)
-
-        if(cmd == '/'):
-            return self.eval(node.l_child) / self.eval(node.r_child)
         
-        if(cmd == '^'):
-            return self.eval(node.l_child) ** self.eval(node.r_child)
+        if(cmd in "+-*/^"):
+            a = self.eval(node.l_child)
+            b = self.eval(node.r_child)
+            c = None
+            
+            if(cmd == '+'):
+                c = a + b
+            elif(cmd == '-'):
+                c = a - b
+            elif(cmd == '*'):
+                c = a * b
+            elif(cmd == '/'):
+                c = a / b
+            elif(cmd == '^'):
+                c = a ** b
+            
+            #print(c,"=",a,cmd,b)
+            return c
 
         if(cmd == 'c'):    # sin(x)
             if(self.angle):
@@ -196,6 +241,9 @@ class ParseTree2:
         if(cmd == 'q'):    # factorial(x)
             return math.factorial(int(abs(self.eval(node.l_child))))
 
+        if(cmd == 'r'):    # void root
+            return self.eval(node.l_child)
+
     def output(self):
         return self.eval(self.root)
         
@@ -225,23 +273,28 @@ class Calculator2:
                 output.write(ans)
                 output.write('\n')
             t2 = time.time()
-            print('time:'+str(t2-t1))
+            #print('time:'+str(t2-t1))
 
 if __name__  == "__main__":
-    # test = Calculator2()
-    # expr = "c(60)*e(45)/0.2+i(4)*1.5-k(0.3)"
 
-    # t1 = time.time()
-    # ans = test.calculate(expr)
-    # t2 = time.time()
-    # print(ans)
-    # print("time:",t2-t1)
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--input", type=str, default='./correctness/correct_1.txt',help="Input file root")
-    parser.add_argument("--output", type=str, default='./ouput_1.txt', help="Output file root")
-    args = parser.parse_args()
-    Cal = Calculator2()
-    Cal.main(args.input, args.output) 
+    test = Calculator2()
+    #expr = "m(11174148)*i(6.666)/p(18^2-3^11)-l(878791)*f(0.123)-g(0-0.4265)-a^a*k(8)-d(138)/h(72)"
+    #expr ="m(1)*i(1)"
+
+    #t1 = time.time()
+    #ans = test.calculate(expr)
+    #t2 = time.time()
+    #print(ans)
+    #print("time:",t2-t1)
+
+    #parser = argparse.ArgumentParser()
+    #parser.add_argument("--input", type=str, default='./correctness/correct_1.txt',help="Input file root")
+    #parser.add_argument("--output", type=str, default='./ouput_1.txt', help="Output file root")
+    #args = parser.parse_args()
+    #Cal = Calculator2()
+    #Cal.main(args.input, args.output) 
+        
+
 # function/operator:notation
 #   a:   pi
 #   b:   e
