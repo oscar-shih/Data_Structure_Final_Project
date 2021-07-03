@@ -16,7 +16,7 @@ class Calculator3:
 
     def __init__(self):
         self.rnd_to = 3          # decimal points to round to
-        self.angle = True       # True for Degrees, False for Radius
+        self.angle = True      # True for Degrees, False for Radius
 
         self.nums = "0123456789."
         self.codes = "ab"
@@ -200,34 +200,34 @@ class Calculator3:
 
 
 if __name__ == "__main__":
-    #parser = argparse.ArgumentParser()
-    #parser.add_argument("--input", type=str, default='./input.txt',help="Input file root")
-    #parser.add_argument("--output", type=str, default='./ouput.txt', help="Output file root")
-    #args = parser.parse_args()
-    #Cal = Calculator3()
-    #Cal.main(args.input, args.output) 
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str, default='./input.txt',help="Input file root")
+    parser.add_argument("--output", type=str, default='./ouput.txt', help="Output file root")
+    args = parser.parse_args()
+    Cal = Calculator3()
+    Cal.main(args.input, args.output) 
     
-    test = Calculator3()
-    expr = [
-    "i(11)*p(10^2-2^10)+l(100)/a-j(10)-f(0.8)*h(37)*h(37)",
-    "f(0.8)/o(8*b^b)-o(8*b^b)*q(15)/f(0.8)*p(10^2-2^10)/q(15)*m(17)",
-    "i(11)-b-m(17)-h(37)*d(60)/b+l(100)+i(11)",
-    "a-k(2)*g(0.3)*j(10)/k(2)-l(100)/g(0.3)+k(2)",
-    "a/o(8*b^b)-e(80)-f(0.8)+f(0.8)+q(5)-i(11)+l(100)",
-    "m(17)*e(80)+d(60)-q(15)/j(10)*g(0.3)-n(3*10^7)*b",
-    "e(80)-e(80)/g(0.3)*k(2)*f(0.8)-j(10)-o(8*b^b)/g(0.3)",
-    "d(60)+d(60)/b*h(37)+c(30)+b+d(60)/b",
-    "a-o(8*b^b)/f(0.8)/c(30)+g(0.3)-g(0.3)-k(2)*l(100)",
-    "i(11)-h(37)*m(17)/m(17)+j(10)-i(11)-h(37)*i(11)",
-    "q(9)*n(3*10^7)+i(11)-d(60)*o(8*b^b)*d(60)+l(100)*d(60)",
-    "c(30)/p(10^2-2^10)+k(2)/a-f(0.8)*f(0.8)*f(0.8)*a",
-    "j(10)+p(10^2-2^10)+k(2)*c(30)+n(3*10^7)+d(60)*e(80)+m(17)",
-    "f(0.8)+c(30)/f(0.8)/b+l(100)+l(100)/f(0.8)/a",
-    "b/n(3*10^7)+i(11)-m(17)/g(0.3)+d(60)+m(17)/i(11)"
-    ]
+    #test = Calculator3()
+    #expr = [
+    #"i(11)*p(10^2-2^10)+l(100)/a-j(10)-f(0.8)*h(37)*h(37)",
+    #"f(0.8)/o(8*b^b)-o(8*b^b)*q(15)/f(0.8)*p(10^2-2^10)/q(15)*m(17)",
+    #"i(11)-b-m(17)-h(37)*d(60)/b+l(100)+i(11)",
+    #"a-k(2)*g(0.3)*j(10)/k(2)-l(100)/g(0.3)+k(2)",
+    #"a/o(8*b^b)-e(80)-f(0.8)+f(0.8)+q(5)-i(11)+l(100)",
+    #"m(17)*e(80)+d(60)-q(15)/j(10)*g(0.3)-n(3*10^7)*b",
+    #"e(80)-e(80)/g(0.3)*k(2)*f(0.8)-j(10)-o(8*b^b)/g(0.3)",
+    #"d(60)+d(60)/b*h(37)+c(30)+b+d(60)/b",
+    #"a-o(8*b^b)/f(0.8)/c(30)+g(0.3)-g(0.3)-k(2)*l(100)",
+    #"i(11)-h(37)*m(17)/m(17)+j(10)-i(11)-h(37)*i(11)",
+    #"q(9)*n(3*10^7)+i(11)-d(60)*o(8*b^b)*d(60)+l(100)*d(60)",
+    #"c(30)/p(10^2-2^10)+k(2)/a-f(0.8)*f(0.8)*f(0.8)*a",
+    #"j(10)+p(10^2-2^10)+k(2)*c(30)+n(3*10^7)+d(60)*e(80)+m(17)",
+    #"f(0.8)+c(30)/f(0.8)/b+l(100)+l(100)/f(0.8)/a",
+    #"b/n(3*10^7)+i(11)-m(17)/g(0.3)+d(60)+m(17)/i(11)"
+    #]
         
-    for x in expr:
-        print(test.calculate(x))
+    #for x in expr:
+    #    print(test.calculate(x))
 
 # function/operator:notation
 #   a:   pi

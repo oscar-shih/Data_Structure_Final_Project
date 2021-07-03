@@ -232,15 +232,15 @@ class Calculator1:
 
 if __name__ == "__main__":
 
-    test = Calculator1()
-    expr = "c(45)"        
+    #test = Calculator1()
+    #expr = "a/o(8*b^b)-e(80)-f(0.8)+f(0.8)+q(5)-i(11)+l(100)"        
 
-    t1 = time.time()
-    ans = test.calculate(expr)
-    t2 = time.time()
-    print(ans)
-    print("time:",t2-t1)
-    print()
+    #t1 = time.time()
+    #ans = test.calculate(expr)
+    #t2 = time.time()
+    #print(ans)
+    #print("time:",t2-t1)
+    #print()
 
     #test = Calculator1()
     #expr = [
@@ -264,12 +264,12 @@ if __name__ == "__main__":
     #for x in expr:
     #    print(test.calculate(x))
 
-    #parser = argparse.ArgumentParser()
-    #parser.add_argument("--input", type=str, default='./correctness/correct_1.txt',help="Input file root")
-    #parser.add_argument("--output", type=str, default='./ouput_1.txt', help="Output file root")
-    #args = parser.parse_args()
-    #Cal = Calculator1()
-    #Cal.main(args.input, args.output) 
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str, default='./correctness/correct_1.txt',help="Input file root")
+    parser.add_argument("--output", type=str, default='./ouput_1.txt', help="Output file root")
+    args = parser.parse_args()
+    Cal = Calculator1()
+    Cal.main(args.input, args.output) 
 
 # function/operator:notation
 #   a:   pi
