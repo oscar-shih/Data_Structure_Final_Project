@@ -277,7 +277,7 @@ class Calculator2:
 
 if __name__  == "__main__":
 
-    test = Calculator2()
+    #test = Calculator2()
     #expr = "m(11174148)*i(6.666)/p(18^2-3^11)-l(878791)*f(0.123)-g(0-0.4265)-a^a*k(8)-d(138)/h(72)"
     #expr ="m(1)*i(1)"
 
@@ -287,12 +287,12 @@ if __name__  == "__main__":
     #print(ans)
     #print("time:",t2-t1)
 
-    #parser = argparse.ArgumentParser()
-    #parser.add_argument("--input", type=str, default='./correctness/correct_1.txt',help="Input file root")
-    #parser.add_argument("--output", type=str, default='./ouput_1.txt', help="Output file root")
-    #args = parser.parse_args()
-    #Cal = Calculator2()
-    #Cal.main(args.input, args.output) 
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str, default='./correctness/correct_1.txt',help="Input file root")
+    parser.add_argument("--output", type=str, default='./ouput_1.txt', help="Output file root")
+    args = parser.parse_args()
+    Cal = Calculator2()
+    Cal.main(args.input, args.output) 
         
 
 # function/operator:notation
