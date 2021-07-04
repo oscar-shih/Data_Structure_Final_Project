@@ -76,7 +76,7 @@ if __name__ == "__main__":
     display = ['sqrt', 'square', 'cube',   '^',\
                'log',  'sin',    'cos',    'tan',\
                'ln',   'arcsin', 'arccos', 'arctan',\
-               'abs',  '(',      ')',      'ftr',\
+               'abs',  '(',      ')',      '!',\
                'e',    'pi',     'DEL',    'AC',\
                '7',    '8',      '9',      '*',\
                '4',    '5',      '6',      '/',\
