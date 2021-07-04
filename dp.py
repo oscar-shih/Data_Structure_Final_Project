@@ -44,7 +44,7 @@ class ParseTree4:
         i = 0
         while i < len(expr):
             char = expr[i]  
-            print("CHAR",char)
+            #print("CHAR",char)
             if(char in self.nums):
                 temp = ""
                 while(i < len(expr) and expr[i] in self.nums):
@@ -90,17 +90,17 @@ class ParseTree4:
                 elif(self.ops.get(char) < self.ops.get(current.content) or (char == "^" and current.content not in self.funcs)):
                     new_node = Node4(char)
                     if(current.r_child):    
-                        print(char,current.content,"goes BOTTOM RIGHT")
+                        #print(char,current.content,"goes BOTTOM RIGHT")
                         new_node.l_child, new_node.l_child.parent = current.r_child, new_node
                         current.r_child, new_node.parent = new_node, current
   
                     else:
-                        print(char,"goes BOTTOM LEFT")
+                        #print(char,"goes BOTTOM LEFT")
                         new_node.l_child, new_node.l_child.parent =  current.l_child, new_node
                         current.l_child, new_node.parent = new_node, current
       
                 else:
-                    print(char,"goes UP")
+                    #print(char,"goes UP")
                     new_node = Node4(char)
                     while(current.parent and current.parent.content and\
                     self.ops.get(char) >= self.ops.get(current.parent.content)):
@@ -127,7 +127,7 @@ class ParseTree4:
 
     def eval(self, node):
         cmd = node.content
-        print(cmd)
+        #print(cmd)
         if(type(cmd) == float):
             return cmd
         
@@ -147,7 +147,7 @@ class ParseTree4:
             elif(cmd == '^'):
                 c = a ** b
             
-            print(c,"=",a,cmd,b)
+            #print(c,"=",a,cmd,b)
             return c
         
         elif(cmd in self.ops):
@@ -212,7 +212,7 @@ class ParseTree4:
             elif(cmd == 'r'):    # void root
                 c = a
             
-            print(c,"=",cmd,"(",a,")")
+            #print(c,"=",cmd,"(",a,")")
             return c
 
     def output(self):
@@ -232,7 +232,7 @@ class Calculator4:
         self.angle = not self.angle
 
     def findVal(self, string):               # find value of expression withou parantheses
-        print("STRING",string)
+        #print("STRING",string)
         tree = ParseTree4(self.angle)
         tree.buildTree(string)
         return str(tree.output())
@@ -281,15 +281,15 @@ class Calculator4:
 
 if __name__ == "__main__":
 
-    test = Calculator4()
-    print(test.calculate("6.685*g(((2.964/8.47*0.813/4.267))/1000)*5.291"))    
+    #test = Calculator4()
+    #print(test.calculate("6.685*g(((2.964/8.47*0.813/4.267))/1000)*5.291"))    
 
-    #parser = argparse.ArgumentParser()
-    #parser.add_argument("--input", type=str, default='./correctness/correct_1.txt',help="Input file root")
-    #parser.add_argument("--output", type=str, default='./ouput_1.txt', help="Output file root")
-    #args = parser.parse_args()
-    #Cal = Calculator4()
-    #Cal.main(args.input, args.output)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str, default='./correctness/correct_1.txt',help="Input file root")
+    parser.add_argument("--output", type=str, default='./ouput_1.txt', help="Output file root")
+    args = parser.parse_args()
+    Cal = Calculator4()
+    Cal.main(args.input, args.output)
 
 # function/operator:notation
 #   a:   pi
