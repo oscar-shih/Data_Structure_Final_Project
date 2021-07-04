@@ -14,12 +14,12 @@ for i in $(seq 1 5); do
 done
 
 for i in $(seq 1 5); do
-    python parse_tree2.py --input correctness/correct_${i}.txt --output pt2_output_${i}.txt
-    dline_py=$(diff pt2_output_${i}.txt correct_ans/golden_${i}.txt |  wc | awk -F ' ' '{print $1}')
-    if [ "${dline_py}" == "0" ] && [ -f pt2_output_${i}.txt ] && [ -f correct_ans/golden_${i}.txt ] ; then
-        echo -e "${GREEN}parse_tree2.py is correct in test case: input_${i}.txt${NC}"
+    python dp.py --input correctness/correct_${i}.txt --output dp_output_${i}.txt
+    dline_py=$(diff dp_output_${i}.txt correct_ans/golden_${i}.txt |  wc | awk -F ' ' '{print $1}')
+    if [ "${dline_py}" == "0" ] && [ -f dp_output_${i}.txt ] && [ -f correct_ans/golden_${i}.txt ] ; then
+        echo -e "${GREEN}dp.py is correct in test case: input_${i}.txt${NC}"
     else
-        echo -e "${RED}parse_tree2.py is incorrect in test case: input_${i}.txt${NC}"
+        echo -e "${RED}dp.py is incorrect in test case: input_${i}.txt${NC}"
     fi
 done
 
