@@ -2,13 +2,24 @@ import pygame
 import shunting_yard as sy
 pygame.init()
 
+
+# Color Theme 
+bg_clr = (255,255,255)    # color for background
+clr1 = (231,235,78)     # color for top row of buttons
+clr2 = (242,156,102)    # color for bottom row of buttons
+clr3 = (36,5,100)         # color for text
+clr4 = (249,236,185)    # color for hover button
+
 win = pygame.display.set_mode((600,600))
-win.fill((255,255,255))
+win.fill(bg_clr)
 
 class Button:
     def __init__(self, color, x, y, width, height, text, code):
         self.code = code
         self.clr = color
+        self.txt_clr = clr3
+        self.norm_clr = color
+        self.alt_clr =clr3
         self.txt = text
         self.x = x  
         self.y = y
@@ -23,7 +34,7 @@ class Button:
 
         if(self.txt):
             font = pygame.font.SysFont('corbel',24)
-            text = font.render(self.txt, 1, (0,0,0))
+            text = font.render(self.txt, 1, self.txt_clr)
             win.blit(text, (self.x + (self.w/2 - text.get_width()/2), self.y + (self.h/2 - text.get_height()/2)))
 
 
@@ -49,14 +60,14 @@ class TextBox:
        
         if(self.txt):
             font = pygame.font.SysFont('corbel',50)
-            text = font.render(self.txt, 1, (0,0,0))
-            win.blit(text, (self.x  - text.get_width()/2, self.y) )
+            text = font.render(self.txt, 1, clr3)
+            win.blit(text, (self.x  - text.get_width(), self.y) )
 
 
 def redraw(btn_list,txt_box):
-    win.fill((255,255,255))
+    win.fill(bg_clr)
     for btn in btn_list:
-        btn.draw(win, None)
+        btn.draw(win, btn.clr)
     txt_box.draw(win, None)
 
 if __name__ == "__main__":
@@ -84,18 +95,22 @@ if __name__ == "__main__":
 
     W = 120
     H = 25
+    clr_dif = ((clr1[0]-clr2[0])/8, (clr1[1]-clr2[1])/8, (clr1[2]-clr2[2])/8)
     for i in range(4):
         for j in range(9):
             X = 30 + i*(W + 20)
             Y = 200 + j*(H + 15)
-            new_btn = Button((0,255,0), X, Y, W, H, display[j*4+i], j*4+i)
+            color = (clr1[0]-clr_dif[0]*j, clr1[1]-clr_dif[1]*j, clr1[2]-clr_dif[2]*j)
+            new_btn = Button(color, X, Y, W, H, display[j*4+i], j*4+i)
             buttons.append(new_btn)
+
+    
 
     run = True
     shown_expr = ""
     cal_expr = ""
     cal = sy.Calculator3()
-    tb = TextBox((0,0,0),500,70,"")
+    tb = TextBox((0,0,0),550,100,"")
     
 
     while run:
@@ -131,8 +146,8 @@ if __name__ == "__main__":
             if event.type == pygame.MOUSEMOTION:
                 for btn in buttons:
                     if btn.hover(pos):
-                        btn.clr = (255,0,0)
+                        btn.clr = clr4
                     else:
-                        btn.clr = (0,255,0)
+                        btn.clr = btn.norm_clr
 
                 
