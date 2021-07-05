@@ -20,6 +20,7 @@
   (1).程式執行:請參考第二點
   
   (2).bash測試:
+  
     a.for windows: bash evaluation_win.sh、bash time_evaluation_win.sh
     
     b.for MacOS/Ubuntu: bash evaluation_macOS.sh、bash time_evaluation_macOS.sh
