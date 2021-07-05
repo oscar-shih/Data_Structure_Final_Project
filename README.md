@@ -23,7 +23,7 @@
  
     python3 ./GUI.py 
   
-3.執行環境:python 3.8以上
+3.執行環境:python 3.8以上(windows.macOS.Linux均可，只是有對應的bash檔案）
 
 4.執行指令：
 
