@@ -3,23 +3,23 @@
 
 2.如何使用程式碼：
 
-  a. python3 ./parse_tree.py
+    python3 ./parse_tree.py
   
   （可自行調整input的txt檔案）
   
-  b. python3 ./dp.py 
+    python3 ./dp.py 
   
   （可自行調整input的txt檔案）
   
-  c. python3 ./shunting_yard.py
+    python3 ./shunting_yard.py
   
   （可自行調整input的txt檔案）
   
-  d. python3 ./exp_generator.py
+    python3 ./exp_generator.py
   
   可產生不同長度的input.txt
   
-  e. python3 ./GUI.py 
+    python3 ./GUI.py 
   
   (會使用到pygame)可進入GUI的計算機頁面，操作與一般計算機相同，使用滑鼠點按即可。
   
@@ -31,14 +31,21 @@
   
   (2).bash測試:
   
-    a.for windows: 
+   a. for windows: 
     
+   correctness:
+   
     bash evaluation_win.sh 
     
+   time:
+   
     bash time_evaluation_win.sh
     
-    b.for MacOS/Ubuntu: 
+   b. for MacOS/Ubuntu: 
+   correctness:
     
     bash evaluation_macOS.sh
+    
+   time:
     
     bash time_evaluation_macOS.sh
