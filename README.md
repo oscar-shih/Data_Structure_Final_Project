@@ -1,4 +1,4 @@
-# Final_Project
+# Final_Project GitHub Link: https://github.com/oscar-shih/Final_Project
 1.需要使用的套件：numpy、time、pygame
 
 2.如何使用程式碼：
